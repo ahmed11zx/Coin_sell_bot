@@ -18,388 +18,387 @@
     .page { display: none; opacity: 0; transition: opacity 0.2s ease-in-out; }
     .page.active { display: block; opacity: 1; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes slideUp { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes wiggle { 0% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(0deg); } 75% { transform: rotate(3deg); } 100% { transform: rotate(0deg); } }
-    .animate-wiggle { animation: wiggle 2s ease-in-out infinite; }
     .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #00D27F; width: 32px; height: 32px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loading-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display:flex; flex-direction: column; justify-content:center; align-items:center; z-index:9999; }
+    .hidden { display: none !important; }
     .payment-method-label { border: 2px solid transparent; transition: all 0.2s ease; background-color: rgba(128,128,128,0.1); }
     .payment-method-radio:checked + .payment-method-label { border-color: #00D27F; background-color: rgba(0, 210, 127, 0.15); box-shadow: 0 4px 12px rgba(0, 210, 127, 0.2); }
-    
-    html.light body { background-color: #F7F9FC; color: #1c1e21; }
-    html.light .bg-card-background { background-color: #FFFFFF; }
-    html.light .form-input { color: #111827; background-color: #FFFFFF; border: 1px solid #E5E7EB; }
-    html.dark body { background-color: #0F172A; color: #F8FAFC; }
-    html.dark .bg-card-background { background-color: #1E293B; border: 1px solid #334155; }
-    html.dark .form-input { color: #F8FAFC; background-color: #0F172A; border: 1px solid #334155; }
+    .form-input { @apply w-full rounded-xl h-12 px-4 shadow-sm bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white; }
   </style>
-  <script id="tailwind-config">
-    tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#00D27F", "background": "#0F172A" } } } }
-  </script>
 </head>
-<body class="bg-background font-display text-text-primary antialiased select-none">
+<body class="bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-white antialiased select-none">
 
-  <div id="loading-overlay" class="loading-overlay hidden">
-      <div class="loader"></div>
-      <p id="loader-text" class="text-white mt-3 font-medium">Loading...</p>
-  </div>
+  <!-- Loader -->
+  <div id="loading-overlay" class="loading-overlay"><div class="loader"></div><p id="loader-text" class="text-white mt-3 font-medium">Initializing...</p></div>
 
-  <div id="app-container" class="relative min-h-screen w-full flex-col hidden overflow-hidden">
+  <div id="app-container" class="relative min-h-screen w-full flex-col hidden overflow-x-hidden">
     
     <!-- Dashboard -->
     <main id="page-dashboard" class="page flex-1 pb-28">
       <div class="flex items-center p-5 pt-8">
           <div class="flex-1">
-              <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Dashboard</h2>
-              <h1 id="welcome-message" class="text-2xl font-extrabold text-text-primary mt-1">Welcome!</h1>
+              <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Dashboard</h2>
+              <h1 id="welcome-message" class="text-2xl font-black mt-1">Welcome!</h1>
           </div>
-          <div class="flex size-12 shrink-0 items-center justify-center">
-              <img class="user-profile-pic object-cover rounded-full size-12 ring-2 ring-primary" src="logo19.jpg">
+          <div class="size-12 rounded-full overflow-hidden ring-2 ring-primary ring-offset-2 dark:ring-offset-slate-950">
+              <img class="user-profile-pic w-full h-full object-cover" src="logo19.jpg" alt="User Avatar">
           </div>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 mt-2">
-        <button data-page="page-sell-niva" class="nav-btn-internal flex items-center p-4 bg-emerald-500 rounded-2xl shadow-lg active:scale-95 transition-transform"> 
-            <img src="./niva.jpg" class="h-12 w-12 rounded-full bg-white p-0.5"> 
-            <div class="ml-4 text-left"><span class="block text-white font-bold text-lg">Sell Niva</span><span class="text-emerald-100 text-xs">Best Rates</span></div>
+      <!-- Action Grid -->
+      <div class="grid grid-cols-2 gap-3 px-4 mt-2">
+        <button data-page="page-sell-niva" class="nav-btn-internal flex flex-col items-start p-4 bg-emerald-500 rounded-3xl shadow-lg text-white active:scale-95 transition-transform"> 
+            <img src="./niva.jpg" class="h-10 w-10 rounded-2xl bg-white/20 p-1 mb-2" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2150/2150150.png'"> 
+            <span class="font-black text-lg">Sell Niva</span>
+            <span class="text-[10px] opacity-80">Best Market Rates</span>
         </button>
-
-        <button data-page="page-sell-ns" class="nav-btn-internal flex items-center p-4 bg-purple-600 rounded-2xl shadow-lg active:scale-95 transition-transform"> 
-            <img src="./ns.jpg" class="h-12 w-12 rounded-full bg-white p-0.5"> 
-            <div class="ml-4 text-left"><span class="block text-white font-bold text-lg">Sell Ns Coin</span><span class="text-purple-100 text-xs">Fast Pay</span></div>
+        <button data-page="page-sell-ns" class="nav-btn-internal flex flex-col items-start p-4 bg-purple-600 rounded-3xl shadow-lg text-white active:scale-95 transition-transform"> 
+            <img src="./ns.jpg" class="h-10 w-10 rounded-2xl bg-white/20 p-1 mb-2" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6001/6001402.png'"> 
+            <span class="font-black text-lg">Sell NS</span>
+            <span class="text-[10px] opacity-80">Fast Withdrawal</span>
         </button>
-
-        <button data-page="page-sell-riva" class="nav-btn-internal flex items-center p-4 bg-orange-500 rounded-2xl shadow-lg active:scale-95 transition-transform"> 
-            <img src="./riva.jpg" class="h-12 w-12 rounded-full bg-white p-0.5" onerror="this.src='./niva.jpg'"> 
-            <div class="ml-4 text-left"><span class="block text-white font-bold text-lg">Sell Riva</span><span class="text-orange-100 text-xs">New Currency</span></div>
+        <button data-page="page-sell-riva" class="nav-btn-internal flex flex-col items-start p-4 bg-orange-500 rounded-3xl shadow-lg text-white active:scale-95 transition-transform"> 
+            <img src="./fira.jpg" class="h-10 w-10 rounded-2xl bg-white/20 p-1 mb-2" onerror="this.src='https://cdn-icons-png.flaticon.com/512/11502/11502424.png'"> 
+            <span class="font-black text-lg">Sell Riva</span>
+            <span class="text-[10px] opacity-80">Updated Coins</span>
         </button>
-
-        <button data-page="page-sell-top-coin" class="nav-btn-internal flex items-center p-4 bg-sky-500 rounded-2xl shadow-lg active:scale-95 transition-transform"> 
-            <img src="./top.jpg" class="h-12 w-12 rounded-full bg-white p-0.5"> 
-            <div class="ml-4 text-left"><span class="block text-white font-bold text-lg">Sell Top Coin</span><span class="text-sky-100 text-xs">Instant Deal</span></div>
+        <button data-page="page-sell-top-coin" class="nav-btn-internal flex flex-col items-start p-4 bg-sky-500 rounded-3xl shadow-lg text-white active:scale-95 transition-transform"> 
+            <img src="./top.jpg" class="h-10 w-10 rounded-2xl bg-white/20 p-1 mb-2" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968330.png'"> 
+            <span class="font-black text-lg">Top Coin</span>
+            <span class="text-[10px] opacity-80">Instant Deal</span>
         </button>
       </div>
 
-      <div class="p-4 space-y-4">
-        <div class="bg-amber-100 dark:bg-amber-900/30 p-5 rounded-2xl border border-amber-200">
-            <h3 class="font-bold text-amber-800 dark:text-amber-400 mb-2 flex items-center gap-2"><span class="material-symbols-outlined">campaign</span> Important Notice</h3>
-            <ul class="text-sm text-amber-700 dark:text-amber-300 space-y-2 list-disc list-inside font-medium">
-                <li>Send money charge of ৳5 will be deducted.</li>
-                <li>Contact Admin for large amount deals.</li>
-                <li>Avoid providing fake transaction details.</li>
+      <!-- English Notices -->
+      <div class="px-4 mt-6 space-y-4">
+        <div class="p-5 bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800">
+            <h3 class="font-bold text-amber-500 flex items-center gap-2 mb-2 uppercase text-xs tracking-widest"><span class="material-symbols-outlined text-base">campaign</span> Notice</h3>
+            <ul class="text-[11px] text-gray-500 dark:text-gray-400 space-y-2 list-disc list-inside font-medium">
+                <li>Send money charge of ৳5 will be deducted from payout.</li>
+                <li>For large amount deals, contact the admin directly.</li>
+                <li>Submitting fake transaction details will lead to a permanent ban.</li>
             </ul>
         </div>
-        <div class="bg-blue-100 dark:bg-blue-900/30 p-5 rounded-2xl border border-blue-200">
-            <h3 class="font-bold text-blue-800 dark:text-blue-400 mb-1">How it works</h3>
-            <p class="text-sm text-blue-700 dark:text-blue-300 font-medium">Submit your sell request. Admins verify manually and payments are sent within 15 minutes.</p>
+        <div class="p-5 bg-blue-500 rounded-3xl text-white shadow-lg shadow-blue-500/20">
+            <h3 class="font-bold text-xs uppercase tracking-widest mb-1 opacity-80">How it works</h3>
+            <p class="text-sm font-medium leading-snug">Manual verification is performed by admins within 15 minutes. Please be patient.</p>
         </div>
       </div>
     </main>
 
     <!-- History Page -->
     <main id="page-history" class="page flex-grow p-4 pb-28">
-        <h1 class="text-2xl font-bold mb-6 mt-4">Transaction History</h1>
-        <div id="history-list" class="flex flex-col gap-3"></div>
-    </main>
-
-    <!-- Shop Page -->
-    <main id="page-shop" class="page flex-grow p-4 pb-28">
-        <h1 class="text-2xl font-bold mb-2 mt-4">Premium Shop</h1>
-        <div id="shop-container" class="grid grid-cols-2 gap-3"></div>
-    </main>
-
-    <!-- Product Details Page -->
-    <main id="page-product-details" class="page flex-grow p-4 pb-32 absolute inset-0 bg-background overflow-y-auto">
-        <header class="flex items-center py-2 mb-4">
-            <button class="nav-btn-internal size-10 flex items-center justify-center" data-page="page-shop"><span class="material-symbols-outlined">arrow_back</span></button>
-            <h1 class="text-xl font-bold flex-1 text-center pr-8">Details</h1>
-        </header>
-        <div class="flex flex-col gap-4">
-            <img id="detail-image" class="w-full aspect-video rounded-2xl object-cover">
-            <h2 id="detail-title" class="text-2xl font-bold">...</h2>
-            <p id="detail-price" class="text-3xl font-extrabold text-primary">৳0</p>
-            <button id="detail-btn-buy" class="w-full bg-primary text-black font-bold py-4 rounded-xl">Order Now</button>
+        <h1 class="text-2xl font-black mb-6 mt-4">Transactions</h1>
+        <div id="history-list" class="flex flex-col gap-3">
+            <!-- Populated via JS -->
         </div>
     </main>
 
-    <!-- Coin Selling Pages (General Template) -->
-    <!-- SELL NIVA -->
+    <!-- Sell Niva Page -->
     <main id="page-sell-niva" class="page flex-grow p-4 pb-28">
-        <header class="flex items-center py-2 mb-4"><button class="nav-btn-internal" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="text-xl font-bold flex-1 text-center pr-8">Sell Niva</h1></header>
-        <div id="niva-transfer-id-box" class="bg-card-background border border-primary p-4 rounded-xl mb-6">
-            <p class="text-xs font-bold text-gray-500">TRANSFER TO ID</p>
-            <p id="niva-transfer-id" class="text-xl font-mono font-bold text-primary">earno.vate.mama</p>
+        <header class="flex items-center mb-6"><button class="nav-btn-internal size-10 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border dark:border-slate-800" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="flex-1 text-center font-bold text-lg mr-10">Sell Niva</h1></header>
+        <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl flex items-center gap-4 mb-2 cursor-pointer" onclick="copyText('earno.vate.mama')">
+            <div class="size-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-white"><span class="material-symbols-outlined">person</span></div>
+            <div class="flex-1"><p class="text-[10px] font-bold text-gray-400 uppercase">Transfer to ID</p><p class="font-mono font-bold text-emerald-500">earno.vate.mama</p></div>
+            <span class="material-symbols-outlined text-gray-400">content_copy</span>
         </div>
+        <p class="text-center text-[10px] font-bold text-red-500 mb-4 animate-pulse uppercase tracking-tighter">Always submit your history screenshot</p>
         <form id="sell-niva-form" class="space-y-4">
-            <input id="niva-sender-user" required class="form-input w-full rounded-xl h-12" placeholder="Sender Username/ID">
-            <input id="niva-amount-input" type="number" required class="form-input w-full rounded-xl h-12" placeholder="Amount (Niva)">
-            <p id="niva-payout-text" class="text-primary text-xs font-bold text-right">Receive: ৳0.00</p>
-            <div class="border-2 border-dashed border-gray-400 p-4 rounded-xl text-center relative">
-                <span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
-                <p class="text-xs">Upload Screenshot</p>
-                <input id="niva-file-input" type="file" accept="image/*,video/*" class="absolute inset-0 opacity-0" required>
-                <div id="niva-preview-container" class="hidden absolute inset-0 bg-white"><img id="niva-preview-img" class="h-full w-full object-contain"></div>
+            <input id="niva-sender-user" required class="form-input" placeholder="Sender Username/ID" type="text">
+            <input id="niva-amount-input" required class="form-input" placeholder="Amount (e.g. 10000)" type="number">
+            <p id="niva-payout-text" class="text-right text-xs font-bold text-emerald-500">Receive: ৳0.00</p>
+            <div class="relative w-full h-36 border-2 border-dashed border-gray-300 dark:border-slate-800 rounded-3xl flex flex-col items-center justify-center overflow-hidden">
+                <div id="niva-upload-prompt" class="text-gray-400 text-center"><span class="material-symbols-outlined text-4xl">add_photo_alternate</span><p class="text-xs font-bold">Upload Proof</p></div>
+                <div id="niva-preview-container" class="hidden absolute inset-0"><img id="niva-preview-img" class="h-full w-full object-cover hidden"></div>
+                <input id="niva-file-input" required class="absolute inset-0 opacity-0 cursor-pointer" type="file" accept="image/*">
             </div>
-            <p class="text-[10px] text-red-500 font-bold">Always submit your history screenshot</p>
             <div class="grid grid-cols-2 gap-2">
-                <input type="radio" name="paymentMethodNiva" id="niva-bk" value="Bkash" checked class="hidden peer/bk"><label for="niva-bk" class="p-3 border rounded-xl text-center peer-checked/bk:bg-primary/20 peer-checked/bk:border-primary">Bkash</label>
-                <input type="radio" name="paymentMethodNiva" id="niva-ng" value="Nagad" class="hidden peer/ng"><label for="niva-ng" class="p-3 border rounded-xl text-center peer-checked/ng:bg-primary/20 peer-checked/ng:border-primary">Nagad</label>
+                <input type="radio" id="niva-bkash" name="pMethodNiva" value="Bkash" class="hidden payment-method-radio" checked><label for="niva-bkash" class="payment-method-label flex items-center justify-center gap-2 p-3 rounded-2xl cursor-pointer font-bold text-sm">Bkash</label>
+                <input type="radio" id="niva-nagad" name="pMethodNiva" value="Nagad" class="hidden payment-method-radio"><label for="niva-nagad" class="payment-method-label flex items-center justify-center gap-2 p-3 rounded-2xl cursor-pointer font-bold text-sm">Nagad</label>
             </div>
-            <input id="niva-payment-number" required class="form-input w-full rounded-xl h-12" placeholder="Your Number (01XXXXXXXXX)">
-            <button type="submit" class="w-full bg-primary text-black font-bold py-4 rounded-xl">Sell Now</button>
+            <input id="niva-payment-number" required class="form-input" placeholder="Number (01XXXXXXXXX)" type="tel" maxlength="11">
+            <button type="submit" class="w-full bg-emerald-500 text-white font-black py-4 rounded-3xl shadow-lg">Sell Now</button>
         </form>
     </main>
 
-    <!-- SELL NS -->
+    <!-- Sell NS Page -->
     <main id="page-sell-ns" class="page flex-grow p-4 pb-28">
-        <header class="flex items-center py-2 mb-4"><button class="nav-btn-internal" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="text-xl font-bold flex-1 text-center pr-8">Sell NS Coin</h1></header>
-        <div id="ns-transfer-id-box" class="bg-card-background border border-purple-500 p-4 rounded-xl mb-6">
-            <p class="text-xs font-bold text-gray-500">TRANSFER TO ID</p>
-            <p id="ns-transfer-id" class="text-xl font-mono font-bold text-purple-500">Loading...</p>
-        </div>
+        <header class="flex items-center mb-6"><button class="nav-btn-internal size-10 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border dark:border-slate-800" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="flex-1 text-center font-bold text-lg mr-10">Sell NS Coin</h1></header>
+        <p class="text-center text-[10px] font-bold text-red-500 mb-4 animate-pulse uppercase">Always submit your history screenshot</p>
         <form id="sell-ns-form" class="space-y-4">
-            <input id="ns-sender-user" class="form-input w-full rounded-xl h-12" placeholder="Sender Username/ID (Optional)">
-            <input id="ns-amount-input" type="number" required class="form-input w-full rounded-xl h-12" placeholder="Amount (NS)">
-            <p id="ns-payout-text" class="text-purple-500 text-xs font-bold text-right">Receive: ৳0.00</p>
-            <div class="border-2 border-dashed border-gray-400 p-4 rounded-xl text-center relative">
-                <input id="ns-file-input" type="file" accept="image/*,video/*" class="absolute inset-0 opacity-0" required>
-                <p class="text-xs">Upload Screenshot</p>
+            <input id="ns-sender-user" class="form-input" placeholder="Sender Username (Optional)" type="text">
+            <input id="ns-amount-input" required class="form-input" placeholder="Amount" type="number">
+            <p id="ns-payout-text" class="text-right text-xs font-bold text-purple-600">Receive: ৳0.00</p>
+            <div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center overflow-hidden">
+                <div id="ns-upload-prompt" class="text-gray-400 text-center"><span class="material-symbols-outlined text-4xl">add_photo_alternate</span><p class="text-xs font-bold">Upload Proof</p></div>
+                <div id="ns-preview-container" class="hidden absolute inset-0"><img id="ns-preview-img" class="h-full w-full object-cover hidden"></div>
+                <input id="ns-file-input" required class="absolute inset-0 opacity-0 cursor-pointer" type="file" accept="image/*">
             </div>
-            <p class="text-[10px] text-red-500 font-bold">Always submit your history screenshot</p>
-            <input id="ns-payment-number" required class="form-input w-full rounded-xl h-12" placeholder="Your Number">
-            <button type="submit" class="w-full bg-purple-600 text-white font-bold py-4 rounded-xl">Sell Now</button>
+            <input id="ns-payment-number" required class="form-input" placeholder="Number (01XXXXXXXXX)" type="tel" maxlength="11">
+            <button type="submit" class="w-full bg-purple-600 text-white font-black py-4 rounded-3xl shadow-lg">Sell Now</button>
         </form>
     </main>
 
-    <!-- SELL RIVA (Renamed from Fira) -->
+    <!-- Sell Riva Page -->
     <main id="page-sell-riva" class="page flex-grow p-4 pb-28">
-        <header class="flex items-center py-2 mb-4"><button class="nav-btn-internal" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="text-xl font-bold flex-1 text-center pr-8">Sell Riva</h1></header>
-        <div id="riva-transfer-id-box" class="bg-card-background border border-orange-500 p-4 rounded-xl mb-6">
-            <p class="text-xs font-bold text-gray-500">TRANSFER TO ID</p>
-            <p id="riva-transfer-id" class="text-xl font-mono font-bold text-orange-500">Loading...</p>
-        </div>
+        <header class="flex items-center mb-6"><button class="nav-btn-internal size-10 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border dark:border-slate-800" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="flex-1 text-center font-bold text-lg mr-10">Sell Riva</h1></header>
+        <p class="text-center text-[10px] font-bold text-red-500 mb-4 animate-pulse uppercase">Always submit your history screenshot</p>
         <form id="sell-riva-form" class="space-y-4">
-            <input id="riva-amount-input" type="number" required class="form-input w-full rounded-xl h-12" placeholder="Amount (Riva)">
-            <p id="riva-payout-text" class="text-orange-500 text-xs font-bold text-right">Receive: ৳0.00</p>
-            <div class="border-2 border-dashed border-gray-400 p-4 rounded-xl text-center relative">
-                <input id="riva-file-input" type="file" accept="video/*" class="absolute inset-0 opacity-0" required>
-                <p class="text-xs">Upload Video Proof</p>
+            <input id="riva-amount-input" required class="form-input" placeholder="Amount" type="number">
+            <p id="riva-payout-text" class="text-right text-xs font-bold text-orange-500">Receive: ৳0.00</p>
+            <div class="relative w-full h-36 border-2 border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center overflow-hidden">
+                <div id="riva-upload-prompt" class="text-gray-400 text-center"><span class="material-symbols-outlined text-4xl">videocam</span><p class="text-xs font-bold">Upload Video Proof</p></div>
+                <div id="riva-preview-container" class="hidden absolute inset-0"><video id="riva-preview-video" class="h-full w-full object-cover" controls></video></div>
+                <input id="riva-file-input" required class="absolute inset-0 opacity-0 cursor-pointer" type="file" accept="video/*">
             </div>
-            <p class="text-[10px] text-red-500 font-bold">Always submit your history screenshot</p>
-            <input id="riva-payment-number" required class="form-input w-full rounded-xl h-12" placeholder="Your Number">
-            <button type="submit" class="w-full bg-orange-500 text-white font-bold py-4 rounded-xl">Sell Now</button>
+            <input id="riva-payment-number" required class="form-input" placeholder="Number (01XXXXXXXXX)" type="tel" maxlength="11">
+            <button type="submit" class="w-full bg-orange-500 text-white font-black py-4 rounded-3xl shadow-lg">Sell Now</button>
         </form>
     </main>
 
-    <!-- SELL TOP COIN -->
+    <!-- Sell Top Coin Page -->
     <main id="page-sell-top-coin" class="page flex-grow p-4 pb-28">
-        <header class="flex items-center py-2 mb-4"><button class="nav-btn-internal" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="text-xl font-bold flex-1 text-center pr-8">Sell Top Coin</h1></header>
+        <header class="flex items-center mb-6"><button class="nav-btn-internal size-10 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border dark:border-slate-800" data-page="page-dashboard"><span class="material-symbols-outlined">arrow_back</span></button><h1 class="flex-1 text-center font-bold text-lg mr-10">Sell Top Coin</h1></header>
+        <p class="text-center text-[10px] font-bold text-red-500 mb-4 animate-pulse uppercase">Always submit your history screenshot</p>
         <form id="sell-top-coin-form" class="space-y-4">
-            <input id="top-coin-amount-input" type="number" required class="form-input w-full rounded-xl h-12" placeholder="Amount (Top)">
-            <textarea id="top-coin-coupon-input" required class="form-input w-full rounded-xl p-4 h-24" placeholder="Paste Coupon Code"></textarea>
-            <p class="text-[10px] text-red-500 font-bold">Always submit your history screenshot</p>
-            <input id="top-coin-payment-number" required class="form-input w-full rounded-xl h-12" placeholder="Your Number">
-            <button type="submit" class="w-full bg-sky-500 text-white font-bold py-4 rounded-xl">Sell Now</button>
+            <input id="top-coin-amount-input" required class="form-input" placeholder="Amount" type="number">
+            <p id="top-coin-payout-text" class="text-right text-xs font-bold text-sky-500">Receive: ৳0.00</p>
+            <textarea id="top-coin-coupon-input" required class="form-input h-24 pt-3 resize-none" placeholder="Paste your coupon code here"></textarea>
+            <input id="top-coin-payment-number" required class="form-input" placeholder="Number (01XXXXXXXXX)" type="tel" maxlength="11">
+            <button type="submit" class="w-full bg-sky-500 text-white font-black py-4 rounded-3xl shadow-lg">Sell Now</button>
         </form>
     </main>
-    
-    <!-- Profile & Admin -->
-    <main id="page-profile" class="page flex-1 p-4 pb-28">
-        <h1 class="text-2xl font-bold mb-6 mt-4">Profile</h1>
-        <div id="admin-panel" class="hidden space-y-4 border-t pt-4 mt-4">
-            <h2 class="font-bold text-red-500">Admin Controls</h2>
-            <form id="update-settings-form" class="space-y-2">
-                <input id="admin-niva-rate-1" type="number" placeholder="Niva Rate" class="form-input w-full rounded p-2">
-                <input id="admin-ns-rate-1" type="number" placeholder="NS Rate" class="form-input w-full rounded p-2">
-                <input id="admin-riva-rate-1" type="number" placeholder="Riva Rate" class="form-input w-full rounded p-2">
-                <button type="submit" class="w-full bg-red-500 text-white py-2 rounded">Save All</button>
-            </form>
+
+    <!-- Profile Page -->
+    <main id="page-profile" class="page flex-grow p-4 pb-28">
+        <h1 class="text-2xl font-black mb-6 mt-4">Settings</h1>
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border dark:border-slate-800 flex flex-col items-center">
+            <img class="user-profile-pic size-20 rounded-full mb-3 ring-4 ring-primary ring-offset-4 dark:ring-offset-slate-900" src="logo19.jpg">
+            <h2 id="profile-name" class="text-xl font-bold">User Name</h2>
+            <p id="profile-id" class="text-xs text-gray-400 font-mono mt-1">ID: 0000000000</p>
+        </div>
+        <div class="mt-4 p-5 bg-blue-500/10 border border-blue-500/20 rounded-3xl">
+            <h3 class="font-bold text-blue-500 flex items-center gap-2 mb-2"><span class="material-symbols-outlined text-base">link</span> OFFICIAL CHANNEL</h3>
+            <p class="text-xs text-gray-500 mb-3">Join our channel for payment proofs and updates.</p>
+            <a href="https://t.me/+yao_mkL_RggxMmE1" target="_blank" class="block w-full text-center bg-blue-500 text-white font-bold py-3 rounded-2xl">Join Now</a>
+        </div>
+
+        <!-- Admin Control (Riva Rate) -->
+        <div id="admin-panel" class="hidden mt-6 p-5 border-2 border-red-500/20 rounded-3xl space-y-4">
+            <h3 class="text-red-500 font-black text-xs uppercase">Admin: Riva Rates</h3>
+            <div class="grid grid-cols-3 gap-2">
+                <input id="adm-riva-1" type="number" class="form-input h-10 text-xs" placeholder="Tier 1">
+                <input id="adm-riva-2" type="number" class="form-input h-10 text-xs" placeholder="Tier 2">
+                <input id="adm-riva-3" type="number" class="form-input h-10 text-xs" placeholder="Tier 3">
+            </div>
+            <button id="btn-save-rates" class="w-full bg-red-500 text-white font-bold py-2 rounded-xl">Save Rates</button>
         </div>
     </main>
 
     <!-- Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 h-20 bg-card-background border-t z-50">
-      <div class="grid h-full grid-cols-4 max-w-lg mx-auto">
-        <button class="nav-btn flex flex-col items-center justify-center" data-page="page-dashboard"><span class="material-symbols-outlined">home</span><span class="text-[10px]">Home</span></button>
-        <button class="nav-btn flex flex-col items-center justify-center" data-page="page-history"><span class="material-symbols-outlined">history</span><span class="text-[10px]">History</span></button>
-        <button class="nav-btn flex flex-col items-center justify-center" data-page="page-shop"><span class="material-symbols-outlined">storefront</span><span class="text-[10px]">Shop</span></button>
-        <button class="nav-btn flex flex-col items-center justify-center" data-page="page-profile"><span class="material-symbols-outlined">person</span><span class="text-[10px]">Profile</span></button>
+    <div class="fixed bottom-0 left-0 right-0 h-20 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t dark:border-slate-900 z-50">
+      <div class="grid h-full max-w-lg grid-cols-3 mx-auto">
+        <button class="nav-btn inline-flex flex-col items-center justify-center text-gray-400" data-page="page-dashboard" data-nav="dashboard"><span class="material-symbols-outlined mb-1">home</span><span class="text-[10px] font-bold">Home</span></button>
+        <button class="nav-btn inline-flex flex-col items-center justify-center text-gray-400" data-page="page-history" data-nav="history"><span class="material-symbols-outlined mb-1">history</span><span class="text-[10px] font-bold">History</span></button>
+        <button class="nav-btn inline-flex flex-col items-center justify-center text-gray-400" data-page="page-profile" data-nav="profile"><span class="material-symbols-outlined mb-1">person</span><span class="text-[10px] font-bold">Profile</span></button>
       </div>
     </div>
   </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const ADMIN_TELEGRAM_ID = '6703675335';
+    // --- Config ---
+    const ADMIN_ID = '6703675335';
     const BOT_TOKEN = '8523876681:AAHJ3AGjdB7KpiHvrjMvq3clD5csFrVlt24';
-    const CHANNEL_ID = '-1002536173839'; // Numeric ID for internal API calls
-    const INVITE_LINK = 'https://t.me/+yao_mkL_RggxMmE1';
-    
-    const $ = (s) => document.querySelector(s);
-    const $$ = (s) => document.querySelectorAll(s);
+    const CHANNEL_ID = '-1002536173839'; 
 
-    let telegramUser, tg;
-    let marketRates = { niva: {tier1:10}, ns: {tier1:10}, riva: {tier1:10}, 'top-coin': {tier1:10} };
+    let telegramUser = { id: 'Unknown', first_name: 'Guest' };
+    let tg = window.Telegram?.WebApp;
 
-    // Initialize Firebase
-    const firebaseConfig = { apiKey: "AIzaSyCAQtTRKgOizQjgqCbIZ_Z357LQD2Woee8", databaseURL: "https://earnovate-bot-default-rtdb.firebaseio.com" };
+    // Firebase
+    const firebaseConfig = { apiKey: "AIzaSyCAQtTRKgOizQjgqCbIZ_Z357LQD2Woee8", authDomain: "earnovate-bot.firebaseapp.com", databaseURL: "https://earnovate-bot-default-rtdb.firebaseio.com", projectId: "earnovate-bot", appId: "1:395184310691:web:9a0a2e5ad0e954b527b216" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function startApp() {
-        tg = window.Telegram.WebApp; tg.expand();
-        telegramUser = tg.initDataUnsafe?.user || { id: 6703675335, first_name: 'Admin' };
+    function showLoader(txt) { document.querySelector('#loader-text').textContent = txt; document.querySelector('#loading-overlay').classList.remove('hidden'); }
+    function hideLoader() { document.querySelector('#loading-overlay').classList.add('hidden'); }
+
+    async function start() {
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            if (tg.initDataUnsafe?.user) telegramUser = tg.initDataUnsafe.user;
+        }
+
+        document.querySelector('#app-container').classList.remove('hidden');
+        document.querySelector('#profile-name').textContent = telegramUser.first_name;
+        document.querySelector('#profile-id').textContent = `ID: ${telegramUser.id}`;
+        document.querySelector('#welcome-message').textContent = `Hi, ${telegramUser.first_name}!`;
+        if (telegramUser.photo_url) document.querySelectorAll('.user-profile-pic').forEach(img => img.src = telegramUser.photo_url);
         
-        if (telegramUser.id.toString() === ADMIN_TELEGRAM_ID) $('#admin-panel').classList.remove('hidden');
-        
-        $('#app-container').classList.remove('hidden');
-        $('#welcome-message').textContent = `Hi, ${telegramUser.first_name}!`;
-        
-        setupEventListeners();
+        if (telegramUser.id.toString() === ADMIN_ID) document.querySelector('#admin-panel').classList.remove('hidden');
+
+        attachEvents();
         loadRates();
         showPage('page-dashboard');
+        hideLoader();
     }
 
-    function setupEventListeners() {
-        $$('.nav-btn, .nav-btn-internal').forEach(btn => btn.onclick = () => showPage(btn.dataset.page));
+    function attachEvents() {
+        document.querySelectorAll('.nav-btn, .nav-btn-internal').forEach(b => b.onclick = (e) => showPage(e.currentTarget.dataset.page));
         
+        // Form & Calculations
         ['niva', 'ns', 'riva', 'top-coin'].forEach(coin => {
-            const input = $(`#${coin}-amount-input`);
-            if(input) input.oninput = () => calculatePayout(coin);
-            const form = $(`#sell-${coin}-form`);
-            if(form) form.onsubmit = (e) => handleCoinSubmit(e, coin);
+            const input = document.querySelector(`#${coin}-amount-input`);
+            if (input) input.oninput = () => calculate(coin);
+            
+            const fileIn = document.querySelector(`#${coin}-file-input`);
+            if (fileIn) fileIn.onchange = (e) => handlePreview(e, coin);
+
+            const form = document.querySelector(`#sell-${coin}-form`);
+            if (form) form.onsubmit = (e) => handleSell(e, coin);
         });
 
-        $('#update-settings-form').onsubmit = handleAdminUpdate;
+        document.querySelector('#btn-save-rates').onclick = saveRivaRates;
     }
 
-    function calculatePayout(coin) {
-        const amt = parseFloat($(`#${coin}-amount-input`).value) || 0;
-        const rate = marketRates[coin]?.tier1 || 0;
+    function calculate(coin) {
+        const amt = parseFloat(document.querySelector(`#${coin}-amount-input`).value) || 0;
+        const rates = { niva: 15, ns: 18, riva: 20, 'top-coin': 12 }; // Dynamic fallbacks
+        const rate = rates[coin] || 10;
         const payout = (amt / 1000 * rate).toFixed(2);
-        $(`#${coin}-payout-text`).textContent = `Receive: ~৳${payout}`;
+        document.querySelector(`#${coin}-payout-text`).textContent = `Receive: ~৳${payout}`;
         return { payout, rate };
     }
 
-    async function handleCoinSubmit(e, coin) {
-        e.preventDefault();
-        $('#loader-text').textContent = 'Submitting...';
-        $('#loading-overlay').classList.remove('hidden');
-
-        try {
-            const amt = $(`#${coin}-amount-input`).value;
-            const num = $(`#${coin}-payment-number`).value;
-            const sender = $(`#${coin}-sender-user`)?.value || 'N/A';
-            const { payout, rate } = calculatePayout(coin);
-
-            const msg = `🚀 <b>New Sell Order: ${coin.toUpperCase()}</b>\n\n` +
-                        `👤 User: @${telegramUser.username || telegramUser.id}\n` +
-                        `💰 Amount: ${amt}\n` +
-                        `💵 Payout: ৳${payout}\n` +
-                        `📱 Number: ${num}\n` +
-                        `👤 Sender: ${sender}\n` +
-                        `📅 ${new Date().toLocaleString()}`;
-
-            const formData = new FormData();
-            formData.append('chat_id', CHANNEL_ID);
-            formData.append('parse_mode', 'HTML');
-
-            const fileInput = $(`#${coin}-file-input`);
-            let endpoint = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            
-            if(fileInput && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if(file.type.startsWith('video/')) {
-                    endpoint = `https://api.telegram.org/bot${BOT_TOKEN}/sendVideo`;
-                    formData.append('video', file);
-                } else {
-                    endpoint = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
-                    formData.append('photo', file);
-                }
-                formData.append('caption', msg);
+    function handlePreview(e, coin) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            document.querySelector(`#${coin}-upload-prompt`).classList.add('hidden');
+            const cont = document.querySelector(`#${coin}-preview-container`);
+            cont.classList.remove('hidden');
+            if (file.type.startsWith('video')) {
+                const vid = document.querySelector(`#${coin}-preview-video`);
+                vid.classList.remove('hidden');
+                vid.src = ev.target.result;
             } else {
-                formData.append('text', msg);
+                const img = document.querySelector(`#${coin}-preview-img`);
+                img.classList.remove('hidden');
+                img.src = ev.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function handleSell(e, coin) {
+        e.preventDefault();
+        showLoader('Submitting...');
+        try {
+            const { payout, rate } = calculate(coin);
+            const amount = document.querySelector(`#${coin}-amount-input`).value;
+            const number = document.querySelector(`#${coin}-payment-number`).value;
+            const sender = document.querySelector(`#${coin}-sender-user`)?.value || 'N/A';
+            const coupon = document.querySelector(`#${coin}-coupon-input`)?.value || 'N/A';
+            const userTag = telegramUser.username ? `@${telegramUser.username}` : telegramUser.id;
+
+            let text = `🚀 <b>New ${coin.toUpperCase()} Request</b>\n\n👤 <b>User:</b> ${userTag}\n💰 <b>Amount:</b> ${amount}\n💵 <b>Payout:</b> ৳${payout}\n📱 <b>Number:</b> <code>${number}</code>`;
+            if (coin === 'niva' || coin === 'ns') text += `\n👤 <b>Sender:</b> ${sender}`;
+            if (coin === 'top-coin') text += `\n🎟 <b>Coupon:</b> ${coupon}`;
+
+            const file = document.querySelector(`#${coin}-file-input`)?.files[0];
+            const fd = new FormData();
+            fd.append('chat_id', CHANNEL_ID);
+            fd.append('parse_mode', 'HTML');
+
+            let url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            if (file) {
+                url = file.type.startsWith('video') ? `https://api.telegram.org/bot${BOT_TOKEN}/sendVideo` : `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
+                fd.append(file.type.startsWith('video') ? 'video' : 'photo', file);
+                fd.append('caption', text);
+            } else {
+                fd.append('text', text);
             }
 
-            const res = await fetch(endpoint, { method: 'POST', body: formData });
-            const result = await res.json();
+            const res = await fetch(url, { method: 'POST', body: fd });
+            const data = await res.json();
 
-            if(result.ok) {
-                // Save to Firebase History with Pending status
-                const historyRef = db.ref(`users/${telegramUser.id}/history`).push();
-                await historyRef.set({
-                    coin: coin,
-                    amount: amt,
-                    payout: payout,
-                    status: 'Pending',
-                    msgId: result.result.message_id, // Store for potential tracking
-                    time: Date.now()
+            if (data.ok) {
+                // Save Pending history
+                await db.ref(`users/${telegramUser.id}/history`).push({
+                    coin, amount, payout, status: 'Pending', time: Date.now(), msgId: data.result.message_id
                 });
-
-                tg.showAlert('Order Submitted! Check history for status.');
+                alert('Request Submitted! Please check History for status.');
                 showPage('page-dashboard');
-            }
-        } catch (err) {
-            tg.showAlert('Error: ' + err.message);
-        } finally {
-            $('#loading-overlay').classList.add('hidden');
-        }
+                e.target.reset();
+            } else { throw new Error(data.description); }
+        } catch (err) { alert(err.message); } finally { hideLoader(); }
     }
 
     function renderHistory() {
-        const list = $('#history-list');
-        list.innerHTML = 'Loading...';
-        db.ref(`users/${telegramUser.id}/history`).on('value', (snap) => {
-            const data = snap.val();
-            if(!data) { list.innerHTML = 'No history.'; return; }
-            
-            const items = Object.values(data).reverse();
+        const list = document.querySelector('#history-list');
+        list.innerHTML = '<p class="text-center opacity-50 py-10">Syncing...</p>';
+        db.ref(`users/${telegramUser.id}/history`).on('value', (s) => {
+            const val = s.val();
+            if (!val) { list.innerHTML = '<p class="text-center opacity-50 text-xs py-10">No history found.</p>'; return; }
+            const items = Object.values(val).reverse();
             list.innerHTML = items.map(h => `
-                <div class="bg-card-background p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-100 dark:border-gray-800">
+                <div class="p-4 bg-white dark:bg-slate-900 rounded-3xl flex justify-between items-center shadow-sm">
                     <div>
-                        <p class="font-bold uppercase text-sm">${h.coin}</p>
-                        <p class="text-xs text-gray-400">${new Date(h.time).toLocaleTimeString()}</p>
+                        <p class="font-black text-sm uppercase">${h.coin} <span class="ml-2 text-[8px] px-2 py-0.5 rounded-full ${h.status === 'Complete' ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}">${h.status}</span></p>
+                        <p class="text-[10px] text-gray-400">${new Date(h.time).toLocaleString()}</p>
                     </div>
                     <div class="text-right">
-                        <p class="font-bold">৳${h.payout}</p>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${h.status === 'Complete' ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}">
-                            ${h.status}
-                        </span>
+                        <p class="font-black">৳${h.payout}</p>
+                        <p class="text-[9px] text-gray-400">${h.amount} Coins</p>
                     </div>
                 </div>
             `).join('');
         });
     }
 
-    function loadRates() {
-        db.ref('rates').on('value', (s) => {
-            marketRates = s.val() || marketRates;
-            if(marketRates.transferIds) {
-                $('#ns-transfer-id').textContent = marketRates.transferIds.ns || 'earno.vate.ns';
-                $('#riva-transfer-id').textContent = marketRates.transferIds.riva || 'earno.vate.riva';
+    async function loadRates() {
+        db.ref('rates/riva').on('value', (s) => {
+            const r = s.val();
+            if (r) {
+                document.querySelector('#adm-riva-1').value = r.tier1 || '';
+                document.querySelector('#adm-riva-2').value = r.tier2 || '';
+                document.querySelector('#adm-riva-3').value = r.tier3 || '';
             }
         });
     }
 
-    async function handleAdminUpdate(e) {
-        e.preventDefault();
-        const update = {
-            niva: { tier1: parseFloat($('#admin-niva-rate-1').value) || 10 },
-            ns: { tier1: parseFloat($('#admin-ns-rate-1').value) || 10 },
-            riva: { tier1: parseFloat($('#admin-riva-rate-1').value) || 10 }
-        };
-        await db.ref('rates').update(update);
-        tg.showAlert('Rates Updated');
+    async function saveRivaRates() {
+        const t1 = parseFloat(document.querySelector('#adm-riva-1').value) || 0;
+        const t2 = parseFloat(document.querySelector('#adm-riva-2').value) || 0;
+        const t3 = parseFloat(document.querySelector('#adm-riva-3').value) || 0;
+        await db.ref('rates/riva').set({ tier1: t1, tier2: t2, tier3: t3 });
+        alert('Riva Rates Saved!');
     }
 
     function showPage(id) {
-        $$('.page').forEach(p => p.classList.remove('active'));
-        $(`#${id}`).classList.add('active');
-        if(id === 'page-history') renderHistory();
-        window.scrollTo(0,0);
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const active = document.querySelector(`#${id}`);
+        if (active) active.classList.add('active');
+        if (id === 'page-history') renderHistory();
+        
+        document.querySelectorAll('.nav-btn').forEach(b => {
+            const isAct = id.includes(b.dataset.nav);
+            b.classList.toggle('text-emerald-500', isAct);
+            b.classList.toggle('text-gray-400', !isAct);
+        });
+        window.scrollTo(0, 0);
     }
 
-    startApp();
+    window.copyText = (txt) => {
+        navigator.clipboard.writeText(txt).then(() => {
+            if (tg) tg.showAlert('Copied: ' + txt); else alert('Copied: ' + txt);
+        });
+    }
+
+    start();
 });
 </script>
 </body>
